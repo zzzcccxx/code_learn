@@ -210,6 +210,73 @@ config.update({
 gold=round(gold) if abs(gold-round(gold)) < 1e-4 else gold
 ```
 
+### 24. 在list.lst中包含所有的.wav文件路径，pf_human_score.csv中包含所有考试的ID和人工分，将wav的ID在pf_human_score.csv中存在的路径复制到指定目录并创建human_score.csv
+
+```python
+wav = pd.read_csv('', header=None, names=['wav_id'])
+wav['final_id'] = wav['wav_id'].apply(lambda x: ~~~)
+os.makedirs('~', exist_ok=True)
+H1 = open('~~', 'w')
+H1.write('ID' + '\t' + 'human_score' + '\n')
+score_file = pd.read_csv('~~', header=None, sep='\t', names=['aa', 'bb', 'cc'])
+all_wav_id = set(score_file['ID'])
+for i in range(len(wav['final_id'])-1):
+    if wav['final_id'][i] in all_wav_id and ...:
+        shutil.copy(~~, '~~' + '.wav')
+        H1.write()
+    
+```
+
+### 25. 若dataframe取出的某列后有索引，如：
+
+```python
+score = score_file[score_file['ID']==wav['final_id'][i]]['human_score']
+# 35778		0.5
+score = score.values.item()
+# 0.5
+```
+
+### 26.解压.zip文件到指定目录
+
+```python
+unzip xx.zip -d 指定目录
+```
+
+### 27. 去重得到sklearn的LabelEncoder
+
+```python
+que_le = sklearn.preprocessing.LabelEncoder()
+que_le.fit(df['paper_id'])
+df['paper_id'] = list(que_le.transform(df['paper_id']))
+```
+
+### 28. 在shell指令中遍历
+
+```
+for dataset in bj tj sh hz 
+do
+case $dataset in
+	bj)
+	exam_type=1
+	fenzhi=2
+	;;
+	tj)
+	exam_type=2
+	fenzhi=5
+	;;
+	sh)
+	exam_type=2
+	fenzhi=5
+	;;
+	hz)
+	exam_type=2
+	fenzhi=5
+	;;
+esac
+path=$dataset/$exam_type/$fenzhi
+done
+```
+
 
 
 # Fairseq训练流程
@@ -228,6 +295,23 @@ fairseq-train\
 1. 拿到参数
 2. set_up_task(cls,args,**kwargs)
 3. load_dataset(self,split,epoch=0,**kwargs)
+
+```python
+def evaluate(self,result_triples,ckpt_name):
+	pd.set_option("display.float_format", lambda x:f"{x:8.2f}")
+	ckpt_name = ckpt_name.replace(".pt", "")
+	result_path = os.path.join(self.args.result_path, f"result-{ckpt_name}.xlsx")
+    items = []
+    for _,sample,result in result_triples:
+        pred = result['encoder_out'].tolist()*(最高分-最低分)+最低分
+        gold = sample['target'].tolist()*(最高分-最低分)+最低分
+        text = sample.get("text", '')
+        item = [sample['key'], gold, pred, text]
+        items.append(item)
+    headers = ['~', '~', '~']
+    ret = pd.DataFrame(items,columns=headers)
+    ret.to_csv(...)
+```
 
 ## dataset.py
 
