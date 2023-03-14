@@ -277,13 +277,67 @@ path=$dataset/$exam_type/$fenzhi
 done
 ```
 
-29. 在云端运行程序得到网页的显示界面，如何打开http://127.0.0.1:5000/
+### 29. 在云端运行程序得到网页的显示界面，如何打开http://127.0.0.1:5000/
 
 ``` 
 curl http://127.0.0.1:5000/    #在终端打开网页
 ```
 
 复制内容，在本地新建文本文件，粘贴，再将后缀改为html打开即可。
+
+### 30. 使用同组其他人的环境
+
+```python
+source /dir/.bashrc_fairseq_cuda10
+```
+
+### 31. 如何从字典dic中随机取出字典的键来？
+
+```python
+random.choice(list(dic))
+```
+
+### 32. 如何查看huggingface中的特殊标志位？
+
+```python
+from transformers import AutoTokenizer, AutoModelForMaskedLM
+import torch
+
+tokenizer = AutoTokenizer.from_pretrained("albert-xxlarge-v2")
+original = tokenizer(sentence1,sentence2, max_length=512, truncation=True, return_tensors='pt')
+original = {k:v[0] for k,v in original.items()}
+print(original)
+print(tokenizer.special_tokens_map)
+print(tokenizer.encode(['[CLS]', '[SEP]', 'PAD']))
+print(tokenizer.decode([0, 2]))
+```
+
+### 33. 如何在输入近tokenizer的两端文本中前面的那段采用bert的mask机制来进行掩码？
+
+```python
+# method 2 
+test1 = tokenizer4(sentence1, max_length=512,add_special_tokens=False, truncation=True, return_tensors='pt')
+test1 = {k:v[0] for k,v in test1.items()}
+test1 = test1['input_ids']
+labels = test1.clone()
+select_indices = torch.bernoulli(torch.full(labels.shape, 0.15)).bool()		# 选中15%
+mask_replaced = torch.bernoulli(torch.full(labels.shape, 0.8)).bool() & select_indices		# 15%中的80%
+test1[mask_replaced] = tokenizer4.convert_tokens_to_ids(tokenizer4.mask_token)
+indices_random = torch.bernoulli(torch.full(labels.shape, 0.5)).bool() & select_indices & ~mask_replaced
+random_words = torch.randint(len(tokenizer4), labels.shape, dtype=torch.long)	# 替换成词典中的随机词
+test1[indices_random] = random_words[indices_random]
+print(test1)
+sentence_changed_id = test1
+sentence_changed = tokenizer4.decode(sentence_changed_id.tolist())
+print(sentence_changed)
+
+model_input = tokenizer4(sentence_changed,sentence2, max_length=512, truncation=True, return_tensors='pt')
+
+```
+
+
+
+
 
 # Fairseq训练流程
 
