@@ -335,10 +335,10 @@ model_input = tokenizer4(sentence_changed,sentence2, max_length=512, truncation=
 
 ```
 
-### 34.若想动态的看nvidia的显存变化
+### 34.若想动态的看nvidia的显存变化，只能用在linux系统重
 
 ```
-watch -n nvidia-smi
+watch -n 3 nvidia-smi
 ```
 
 
