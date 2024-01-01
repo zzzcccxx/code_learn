@@ -341,6 +341,30 @@ model_input = tokenizer4(sentence_changed,sentence2, max_length=512, truncation=
 watch -n 3 nvidia-smi
 ```
 
+### 35. 如何本地使用docker新建环境并映射到 /data磁盘
+
+```
+docker run -itd --name chatglm3 -v `pwd`/ChatGLM3:/data \
+--gpus=all -e NVIDIA_DRIVER_CAPABILITIES=compute,utility -e NVIDIA_VISIBLE_DEVICES=all \
+-p 8501:8501 pytorch/pytorch:2.0.1-cuda11.7-cudnn8-devel
+```
+
+### 36. docker启动和运行
+
+```
+docker start chatglm3
+
+docker exec -it chatglm3 bash
+```
+
+
+
+### 37. 查看磁盘空间
+
+```
+du -sh chatglm3/
+```
+
 
 
 
