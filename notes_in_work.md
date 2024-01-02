@@ -61,8 +61,6 @@ df['new'] = df['new'].str.replace("<void>","")
 df.to_csv('~~~', index=False)
 ```
 
-
-
 ### 13. 将列表进行拼接并生成一个大字符串
 
 ```python
@@ -98,7 +96,6 @@ for fold_,(train_idx,val_idx) in enumerate(folds.split(aa)):
     val_path=os.path.join('val_cross_valid',fold_)
     train_data.to_csv(train_path,index=False)
     val_data.to_csv(val_path,index=False)
-    
 ```
 
 ### 18. 如何遍历字典中的每个值
@@ -165,9 +162,9 @@ for j_file in json_list:
 
 with open('/root/learn_code/data/chatgpt_result.json', 'w') as outfile:
     json.dump(data1, outfile, indent=2)
-    
-    
-    
+
+
+
  # 合并法2
 json_list = glob.glob(f"{root_path}/*.json")
 data_list = []
@@ -185,7 +182,7 @@ pw.close()
 ```python
 json_path = 'xxx.json'
 _lines = json.load(open(json_path))
-iters = itertools.chain(*[_lines])	# 将不同行解析为一行 
+iters = itertools.chain(*[_lines])    # 将不同行解析为一行 
 # iters[0]为{'id': '0000011', 'answer': 'answer1', 'text': 'text1', 'human_score': 0.25}
 dataset = []
 for line in iters:
@@ -224,14 +221,13 @@ for i in range(len(wav['final_id'])-1):
     if wav['final_id'][i] in all_wav_id and ...:
         shutil.copy(~~, '~~' + '.wav')
         H1.write()
-    
 ```
 
 ### 25. 若dataframe取出的某列后有索引，如：
 
 ```python
 score = score_file[score_file['ID']==wav['final_id'][i]]['human_score']
-# 35778		0.5
+# 35778        0.5
 score = score.values.item()
 # 0.5
 ```
@@ -256,22 +252,22 @@ df['paper_id'] = list(que_le.transform(df['paper_id']))
 for dataset in bj tj sh hz 
 do
 case $dataset in
-	bj)
-	exam_type=1
-	fenzhi=2
-	;;
-	tj)
-	exam_type=2
-	fenzhi=5
-	;;
-	sh)
-	exam_type=2
-	fenzhi=5
-	;;
-	hz)
-	exam_type=2
-	fenzhi=5
-	;;
+    bj)
+    exam_type=1
+    fenzhi=2
+    ;;
+    tj)
+    exam_type=2
+    fenzhi=5
+    ;;
+    sh)
+    exam_type=2
+    fenzhi=5
+    ;;
+    hz)
+    exam_type=2
+    fenzhi=5
+    ;;
 esac
 path=$dataset/$exam_type/$fenzhi
 done
@@ -279,7 +275,7 @@ done
 
 ### 29. 在云端运行程序得到网页的显示界面，如何打开http://127.0.0.1:5000/
 
-``` 
+```
 curl http://127.0.0.1:5000/    #在终端打开网页
 ```
 
@@ -320,11 +316,11 @@ test1 = tokenizer4(sentence1, max_length=512,add_special_tokens=False, truncatio
 test1 = {k:v[0] for k,v in test1.items()}
 test1 = test1['input_ids']
 labels = test1.clone()
-select_indices = torch.bernoulli(torch.full(labels.shape, 0.15)).bool()		# 选中15%
-mask_replaced = torch.bernoulli(torch.full(labels.shape, 0.8)).bool() & select_indices		# 15%中的80%
+select_indices = torch.bernoulli(torch.full(labels.shape, 0.15)).bool()        # 选中15%
+mask_replaced = torch.bernoulli(torch.full(labels.shape, 0.8)).bool() & select_indices        # 15%中的80%
 test1[mask_replaced] = tokenizer4.convert_tokens_to_ids(tokenizer4.mask_token)
 indices_random = torch.bernoulli(torch.full(labels.shape, 0.5)).bool() & select_indices & ~mask_replaced
-random_words = torch.randint(len(tokenizer4), labels.shape, dtype=torch.long)	# 替换成词典中的随机词
+random_words = torch.randint(len(tokenizer4), labels.shape, dtype=torch.long)    # 替换成词典中的随机词
 test1[indices_random] = random_words[indices_random]
 print(test1)
 sentence_changed_id = test1
@@ -332,7 +328,6 @@ sentence_changed = tokenizer4.decode(sentence_changed_id.tolist())
 print(sentence_changed)
 
 model_input = tokenizer4(sentence_changed,sentence2, max_length=512, truncation=True, return_tensors='pt')
-
 ```
 
 ### 34.若想动态的看nvidia的显存变化，只能用在linux系统重
@@ -357,13 +352,41 @@ docker start chatglm3
 docker exec -it chatglm3 bash
 ```
 
-
-
 ### 37. 查看磁盘空间
 
 ```
 du -sh chatglm3/
 ```
+
+### 38. 配置代理和清楚代理（梯子）
+
+```
+export http_proxy=http://172.31.233.190
+export https_proxy=http://172.31.233.190
+
+
+unset http_proxy
+unset https_proxy
+```
+
+### 39. 服务器跑的生成端口怎么本地访问
+
+```python
+# 如服务器给出url为 http://0.0.0.0:8501
+ssh -L 8501:localhost:8501 -p 30056 root@172.31.233.190
+# 将服务器的8501与本地的8501做映射，代码前者为服务器的
+```
+
+### 40. python导入不了自己写的库怎么办
+
+```
+import sys
+sys.path.append('包的路径')
+```
+
+###  
+
+
 
 
 
@@ -373,11 +396,11 @@ du -sh chatglm3/
 
 ```
 fairseq-train\
---save-dir \	# 模型保存路径
---user-dir \	# fairseq中data\model\task文件夹的路径
---task \		#任务名（注册的）
+--save-dir \    # 模型保存路径
+--user-dir \    # fairseq中data\model\task文件夹的路径
+--task \        #任务名（注册的）
 --task中自定义的参数 \
---finetune-from-model \	# xxxxx.pt
+--finetune-from-model \    # xxxxx.pt
 ```
 
 ## task.py
@@ -388,9 +411,9 @@ fairseq-train\
 
 ```python
 def evaluate(self,result_triples,ckpt_name):
-	pd.set_option("display.float_format", lambda x:f"{x:8.2f}")
-	ckpt_name = ckpt_name.replace(".pt", "")
-	result_path = os.path.join(self.args.result_path, f"result-{ckpt_name}.xlsx")
+    pd.set_option("display.float_format", lambda x:f"{x:8.2f}")
+    ckpt_name = ckpt_name.replace(".pt", "")
+    result_path = os.path.join(self.args.result_path, f"result-{ckpt_name}.xlsx")
     items = []
     for _,sample,result in result_triples:
         pred = result['encoder_out'].tolist()*(最高分-最低分)+最低分
@@ -408,62 +431,58 @@ def evaluate(self,result_triples,ckpt_name):
 1. 先\__init__初始化
 
 2. \__getitem__(self,index)
-
-	```
-	item = self.dataset.iloc[index]
-	text = item['xxx']
-	model_inputs = self.tokenizer(text,max_length=512,truncation=True,return_tensor='pt')
-	model_inputs = {k:v[0], for k,v in model_inputs.item()}
-	ret = {
-			"id":~~,
-			"aaa":~~,
-			"bbb":~~~
-			}
-	ret = {**ret, **model_inputs}
-	return ret
-	```
+   
+   ```
+   item = self.dataset.iloc[index]
+   text = item['xxx']
+   model_inputs = self.tokenizer(text,max_length=512,truncation=True,return_tensor='pt')
+   model_inputs = {k:v[0], for k,v in model_inputs.item()}
+   ret = {
+           "id":~~,
+           "aaa":~~,
+           "bbb":~~~
+           }
+   ret = {**ret, **model_inputs}
+   return ret
+   ```
 
 3. collater(self, samples):
-
-	```
-	scores = torch.tensor([s['score'] for s in samples])
-	collater_data = {
-					"xxx":~~,
-					"aaaa":~~,
-					"net_input":{"input_ids":...., "~~":~~, "xxx":xxx}
-					"target":scores
-						}
-	return collater_data
-	```
-
-	
+   
+   ```
+   scores = torch.tensor([s['score'] for s in samples])
+   collater_data = {
+                   "xxx":~~,
+                   "aaaa":~~,
+                   "net_input":{"input_ids":...., "~~":~~, "xxx":xxx}
+                   "target":scores
+                       }
+   return collater_data
+   ```
 
 ## model.py
 
 1. build_model(cls, args, task):
-
-	```
-	config = AutoConfig.from_pretrained("")
-	encoder = AutoModel.from_pretrained("")
-	config.update({"xx":xx, "x":x})
-	return cls(args, encoder, task, config)
-	```
+   
+   ```
+   config = AutoConfig.from_pretrained("")
+   encoder = AutoModel.from_pretrained("")
+   config.update({"xx":xx, "x":x})
+   return cls(args, encoder, task, config)
+   ```
 
 2. \__init__(self, args, encoder_task, config)->None:
-
-	```
-	定义自己的网络如：
-	self.encoder = encoder
-	self.ques_emb = torch.nn.Embedding(a,b)
-	```
+   
+   ```
+   定义自己的网络如：
+   self.encoder = encoder
+   self.ques_emb = torch.nn.Embedding(a,b)
+   ```
 
 3. forward(self, input_idx, attention_mask, **kwargs):
-
-	```
-	...
-	logit = torch.sigmoid(logit)
-	ret = {"encoder_out" : logit}
-	return ret
-	```
-
-	
+   
+   ```
+   ...
+   logit = torch.sigmoid(logit)
+   ret = {"encoder_out" : logit}
+   return ret
+   ```
