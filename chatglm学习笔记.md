@@ -52,14 +52,9 @@ https://b23.tv/WJ7Kid9
 
 3、fastgpt不是开源，需要花费，且需要使用docker。
 
-
-
-
-
 ```
 # Rocky77
 https://www.bilibili.com/video/BV1E94y1V7Lz/?spm_id_from=333.999.0.0&vd_source=822d1ebf6d323eb45fc71d11318c77f3
 ```
 
 1、教如何初始化lfs，并使用魔法方法clone权重文件。
-
