@@ -356,6 +356,7 @@ docker exec -it chatglm3 bash
 
 ```
 du -sh chatglm3/
+du -h --max-depth=1   # 只查看文件夹，不查看当前目录下文件夹中的每个文件。
 ```
 
 ### 38. 配置代理和清楚代理（梯子）
