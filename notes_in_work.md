@@ -385,6 +385,13 @@ import sys
 sys.path.append('包的路径')
 ```
 
+### 41. 指定某个gpu运行程序
+
+```
+CUDA_VISIBLE_DEVICES=0 python xxx.py
+```
+
+
 ### 
 
 # Fairseq训练流程
