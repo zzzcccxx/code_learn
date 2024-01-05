@@ -390,6 +390,11 @@ sys.path.append('包的路径')
 ```
 CUDA_VISIBLE_DEVICES=0 python xxx.py
 ```
+### 42. 修改ssh远程密码
+
+```
+passwd    用户名
+```
 
 
 ### 
