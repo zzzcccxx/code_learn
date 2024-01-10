@@ -390,14 +390,28 @@ sys.path.append('包的路径')
 ```
 CUDA_VISIBLE_DEVICES=0 python xxx.py
 ```
+
 ### 42. 修改ssh远程密码
 
 ```
 passwd    用户名
 ```
 
+### 43. 使用autodl怎么使用端口：
 
-### 
+参考帮助文档，先开本地，再将端口映射为6006.
+
+### 44. 怎么从huggingface上初始化lfs
+
+```
+
+```
+
+
+
+
+
+  
 
 # Fairseq训练流程
 
