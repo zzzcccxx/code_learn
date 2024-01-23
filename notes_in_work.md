@@ -407,7 +407,12 @@ passwd    用户名
 
 ```
 
-
+### 45. git无法使用conda命令
+```
+首先将anaconda路径和anaconda下的scripts路径添加到环境变量
+再在Anaconda的安装位置处，例如D:\Anaconda\etc\profile.d，在profile.d文件夹中“右击”选择“Open Git Bash Here”。
+输入echo ". '${PWD}'/conda.sh" >> ~/.bashrc，之后回车。
+```
 
 
 
