@@ -404,111 +404,29 @@ passwd    用户名
 ### 44. 怎么从huggingface上初始化lfs
 
 ```
-
+sudo apt-get install git-lfs
 ```
 
 ### 45. git无法使用conda命令
+
 ```
 首先将anaconda路径和anaconda下的scripts路径添加到环境变量
 再在Anaconda的安装位置处，例如D:\Anaconda\etc\profile.d，在profile.d文件夹中“右击”选择“Open Git Bash Here”。
 输入echo ". '${PWD}'/conda.sh" >> ~/.bashrc，之后回车。
 ```
 
-
-
-  
-
-# Fairseq训练流程
+### 46. gitbash中环境激活不了且报一堆错误
 
 ```
-fairseq-train\
---save-dir \    # 模型保存路径
---user-dir \    # fairseq中data\model\task文件夹的路径
---task \        #任务名（注册的）
---task中自定义的参数 \
---finetune-from-model \    # xxxxx.pt
+export PYTHONUTF8=1
+然后再激活
 ```
 
-## task.py
+### 47. 虚拟机使用共享文件夹
 
-1. 拿到参数
-2. set_up_task(cls,args,**kwargs)
-3. load_dataset(self,split,epoch=0,**kwargs)
-
-```python
-def evaluate(self,result_triples,ckpt_name):
-    pd.set_option("display.float_format", lambda x:f"{x:8.2f}")
-    ckpt_name = ckpt_name.replace(".pt", "")
-    result_path = os.path.join(self.args.result_path, f"result-{ckpt_name}.xlsx")
-    items = []
-    for _,sample,result in result_triples:
-        pred = result['encoder_out'].tolist()*(最高分-最低分)+最低分
-        gold = sample['target'].tolist()*(最高分-最低分)+最低分
-        text = sample.get("text", '')
-        item = [sample['key'], gold, pred, text]
-        items.append(item)
-    headers = ['~', '~', '~']
-    ret = pd.DataFrame(items,columns=headers)
-    ret.to_csv(...)
 ```
-
-## dataset.py
-
-1. 先\__init__初始化
-
-2. \__getitem__(self,index)
-   
-   ```
-   item = self.dataset.iloc[index]
-   text = item['xxx']
-   model_inputs = self.tokenizer(text,max_length=512,truncation=True,return_tensor='pt')
-   model_inputs = {k:v[0], for k,v in model_inputs.item()}
-   ret = {
-           "id":~~,
-           "aaa":~~,
-           "bbb":~~~
-           }
-   ret = {**ret, **model_inputs}
-   return ret
-   ```
-
-3. collater(self, samples):
-   
-   ```
-   scores = torch.tensor([s['score'] for s in samples])
-   collater_data = {
-                   "xxx":~~,
-                   "aaaa":~~,
-                   "net_input":{"input_ids":...., "~~":~~, "xxx":xxx}
-                   "target":scores
-                       }
-   return collater_data
-   ```
-
-## model.py
-
-1. build_model(cls, args, task):
-   
-   ```
-   config = AutoConfig.from_pretrained("")
-   encoder = AutoModel.from_pretrained("")
-   config.update({"xx":xx, "x":x})
-   return cls(args, encoder, task, config)
-   ```
-
-2. \__init__(self, args, encoder_task, config)->None:
-   
-   ```
-   定义自己的网络如：
-   self.encoder = encoder
-   self.ques_emb = torch.nn.Embedding(a,b)
-   ```
-
-3. forward(self, input_idx, attention_mask, **kwargs):
-   
-   ```
-   ...
-   logit = torch.sigmoid(logit)
-   ret = {"encoder_out" : logit}
-   return ret
-   ```
+https://zhuanlan.zhihu.com/p/650638983
+添加之后记得使用
+$ sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
+回在/mnt/hgfs中新建个/share文件夹用了存放共享文件
+```
