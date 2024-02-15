@@ -403,8 +403,18 @@ passwd    用户名
 
 ### 44. 怎么从huggingface上初始化lfs
 
+<<<<<<< HEAD
 ```
 sudo apt-get install git-lfs
+=======
+```shell
+sudo apt-get install git-lfs
+或者
+$ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh | sudo bash
+$ sudo yum install git-lfs
+$ git lfs install
+
+>>>>>>> 6a6dbf8298c1342d54fb3de5141f894b515f4c01
 ```
 
 ### 45. git无法使用conda命令
@@ -415,7 +425,20 @@ sudo apt-get install git-lfs
 输入echo ". '${PWD}'/conda.sh" >> ~/.bashrc，之后回车。
 ```
 
+<<<<<<< HEAD
 ### 46. gitbash中环境激活不了且报一堆错误
+=======
+### 46. 如何动态查看日志
+
+```shell
+tail [-f -num] 文件路径
+-f表示动态，num表示查看几行
+```
+
+
+
+# Fairseq训练流程
+>>>>>>> 6a6dbf8298c1342d54fb3de5141f894b515f4c01
 
 ```
 export PYTHONUTF8=1
