@@ -435,11 +435,7 @@ tail [-f -num] 文件路径
 -f表示动态，num表示查看几行
 ```
 
-
-
-# Fairseq训练流程
->>>>>>> 6a6dbf8298c1342d54fb3de5141f894b515f4c01
-
+# 本地git无法激活虚拟环境
 ```
 export PYTHONUTF8=1
 然后再激活
@@ -452,4 +448,10 @@ https://zhuanlan.zhihu.com/p/650638983
 添加之后记得使用
 $ sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
 回在/mnt/hgfs中新建个/share文件夹用了存放共享文件
+```
+
+
+### 48. github如何查看自己参与过的issue
+```
+is:issue involves:zzzcccxx
 ```
