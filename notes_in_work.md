@@ -404,6 +404,7 @@ passwd    用户名
 ### 44. 怎么从huggingface上初始化lfs
 
 <<<<<<< HEAD
+
 ```
 sudo apt-get install git-lfs
 =======
@@ -426,8 +427,11 @@ $ git lfs install
 ```
 
 <<<<<<< HEAD
+
 ### 46. gitbash中环境激活不了且报一堆错误
+
 =======
+
 ### 46. 如何动态查看日志
 
 ```shell
@@ -436,6 +440,7 @@ tail [-f -num] 文件路径
 ```
 
 # 本地git无法激活虚拟环境
+
 ```
 export PYTHONUTF8=1
 然后再激活
@@ -450,8 +455,92 @@ $ sudo mount -t fuse.vmhgfs-fuse .host:/ /mnt/hgfs -o allow_other
 回在/mnt/hgfs中新建个/share文件夹用了存放共享文件
 ```
 
-
 ### 48. github如何查看自己参与过的issue
+
 ```
 is:issue involves:zzzcccxx
+```
+
+### 49. 如何使用某个训好的小模型的前几层作为embedding模型
+
+```python
+### 先从modelscope或huggingface上下载模型，model.bin
+
+### 先看模型都有哪几层
+import torch
+
+model = torch.load('pytorch_model.bin')
+
+for name in model.keys():
+    print(name)
+
+
+### 将模型前面的embedding几层保存为新模型
+embedding_layer = {}
+
+# 提取嵌入层的参数
+for key, value in model.items():
+    if 'plm.embeddings' in key:
+        embedding_layer[key] = value
+
+torch.save(embedding_layer, './embedding_model.bin')
+
+
+### 加载embedding模型并给出词嵌入表示
+# 加载嵌入模型
+embedding_model = torch.load('./embedding_model.bin')
+
+with open('./vocab.txt', 'r') as f:
+    vocab = [line.strip() for line in f]
+    index_shoe = vocab.index('鞋')
+    index_cabinet = vocab.index('柜')
+
+# 创建一个包含"鞋"和"柜"索引的张量
+input_data = torch.tensor([[index_shoe, index_cabinet]])
+word_embeddings = embedding_model['plm.embeddings.word_embeddings.weight']
+word_embedded = torch.nn.functional.embedding(input_data, word_embeddings)
+
+print(word_embedded)  # 打印"鞋柜"的词嵌入表示
+```
+
+```python
+import torch
+from torch.nn import functional as F
+import numpy as np
+
+PRODUCT_LIST = ['鞋柜', '书架', '窗', '床', '门']
+embedding_model = torch.load('./embedding_model.bin')
+
+def preprocess(text):
+    # 在这里添加你的预处理步骤
+    pass
+
+def get_embedding(text):
+    # 使用你的模型将文本转化为词嵌入表示
+    words = list(text)
+    with open('./vocab.txt', 'r') as f:
+        vocab = [line.strip() for line in f]
+        indices = [vocab.index(word) for word in words]
+    input_data = torch.tensor([indices])
+    word_embeddings = embedding_model['plm.embeddings.word_embeddings.weight']
+    word_embedded = torch.nn.functional.embedding(input_data, word_embeddings)
+    return word_embedded
+
+
+def get_most_similar(user_input, product_names):
+
+    # user_input = preprocess(user_input)
+    user_embedding = get_embedding(user_input)
+
+    product_embeddings = [get_embedding(name) for name in product_names]
+    import pdb; pdb.set_trace()
+    product_embeddings = torch.stack([e for e in product_embeddings])
+    similarities = F.cosine_similarity(user_embedding.unsqueeze(0), product_embeddings[0])
+    most_similar_index = torch.argmax(similarities)
+
+    return product_names[most_similar_index]
+
+# 测试
+user_input = "组合柜"
+print(get_most_similar(user_input, PRODUCT_LIST))
 ```
