@@ -544,3 +544,6 @@ def get_most_similar(user_input, product_names):
 user_input = "组合柜"
 print(get_most_similar(user_input, PRODUCT_LIST))
 ```
+
+### 50. 怎么查看运行的cpu程序的id
+``` ps -ef | grep 应用名称
